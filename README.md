@@ -12,9 +12,7 @@
     `npm install -g yo`
 - Install the generator: `npm install -g generator-stamp`
 - Run: `yo Stamp`
-– After Yeoman does its thing, install Foundation by running:
-  `$ compass install foundation`
-  
+– After Yeoman does its thing, install Foundation by running: `$ compass install foundation`
 – And then finally: `node server` to get things up and running!
 
 ## License
