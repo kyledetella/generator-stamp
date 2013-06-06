@@ -14,6 +14,7 @@
 - Run: `yo Stamp`
 – After Yeoman does its thing, install Foundation by running:
   `$ compass install foundation`
+  
 – And then finally: `node server` to get things up and running!
 
 ## License
