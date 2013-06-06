@@ -13,8 +13,7 @@
 - Install the generator: `npm install -g generator-stamp`
 - Run: `yo Stamp`
 – After Yeoman does its thing, install Foundation by running:
-
-    $ compass install foundation
+  `$ compass install foundation`
 
 ## License
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
