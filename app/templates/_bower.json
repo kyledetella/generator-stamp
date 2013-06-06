@@ -1,0 +1,11 @@
+{
+  "name": "<%= _.slugify(projectTitle) %>",
+  "version": "0.0.0",
+  "dependencies": {
+    "zeptojs": "latest",
+    "lodash": "latest",
+    "backbone": "latest",
+    "requirejs": "latest",
+    "handlebars": "latest"
+  }
+}
