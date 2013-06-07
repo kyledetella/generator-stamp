@@ -2,7 +2,7 @@
 [![Build Status](https://secure.travis-ci.org/kyledetella/generator-stamp.png?branch=master)](https://travis-ci.org/kyledetella/generator-stamp)
 
 ## A customized [Yeoman](http://yeoman.io) generator
-  #### Features:
+  ++Features:
   + A flyweight node.js server
   + [ZURB's Foundation](http://foundation.zurb.com)
   + AMD Javascript Module architecture (default, but optional)
