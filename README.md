@@ -9,6 +9,7 @@
     
 
 ## Getting started
+**Make sure you have installed [zurb-foundation gem](http://foundation.zurb.com/docs/sass.html)!!!**
 - Make sure you have [yo](https://github.com/yeoman/yo) installed:
     `npm install -g yo`
 - Install the generator: `npm install -g generator-stamp`
