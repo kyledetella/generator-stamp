@@ -58,7 +58,7 @@ module.exports = function (grunt) {
 		},
 
 		//
-		// Build & Compile SASS Files
+		// Build & Compile SASS/SCSS Files
 		//
 		compass: {
 			dist: {
@@ -74,14 +74,14 @@ module.exports = function (grunt) {
 					environment: 'development'
 				}
 			},
-			require: 'foundation'
+			require: 'zurb-foundation'
 		},
 
 		//
 		// Watch task to live update files & builds
 		//
 		watch: {
-			files: './public/css/sass/*.scss',
+			files: './public/css/scss/*.scss',
 			tasks: ['compass:dev']
 		},
 
@@ -135,6 +135,9 @@ module.exports = function (grunt) {
   //
   // Register Grunt Tasks
   //
+
+  // Run initial task
+	grunt.registerTask('go', ['compass:dev']);
 	grunt.registerTask('default', 'build');
 	grunt.registerTask('build', ['requirejs', 'compass:dev']);//, 'sed:version']);
 	grunt.registerTask('watch', ['compass:dev']);

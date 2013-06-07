@@ -1,11 +1,13 @@
 {
   "name": "<%= _.slugify(projectTitle) %>",
   "version": "0.0.0",
-  "dependencies": {
-    "zeptojs": "latest",
+  "dependencies": {<% if (useZepto) { %>
+    "zepto": "latest",<% } else { %>
+    "jquery": "~1.10.1",<% } %>
     "lodash": "latest",
     "backbone": "latest",
     "requirejs": "latest",
-    "handlebars": "latest"
+    "handlebars": "latest",
+    "modernizr": "latest"
   }
 }

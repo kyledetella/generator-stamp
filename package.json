@@ -1,9 +1,12 @@
 {
   "name": "generator-stamp",
-  "version": "0.0.0",
-  "description": "A generator for Yeoman",
+  "version": "0.1.0",
+  "description": "A customized Yeoman generator featuring Foundation and AMD js architecture.",
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "amd",
+    "foundation",
+    "backbone"
   ],
   "homepage": "https://github.com/kyledetella/generator-stamp",
   "bugs": "https://github.com/kyledetella/generator-stamp/issues",

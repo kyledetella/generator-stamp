@@ -6,7 +6,7 @@ require 'zurb-foundation'
 http_path = "/"
 project_path = "./public"
 css_dir = "css/app"
-sass_dir = "css/sass"
+sass_dir = "css/scss"
 images_dir = "img"
 javascripts_dir = "js"
 
