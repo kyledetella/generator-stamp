@@ -4,9 +4,17 @@
 'use strict';
 var express = require('express'),
 		http = require('http'),
-		path = require('path');
+		path = require('path'),
+		settings = {
+		liveReload: {
+			port: 35279
+		},
+		webserver: {
+			port: 3000
+		}
+	};
 
-var app = express();
+var app = module.exports = express();
 
 app.configure(function () {
 
@@ -18,7 +26,6 @@ app.configure(function () {
 	app.set('view options', { layout: 'index.html' });
 	app.engine('html', require('hbs').__express);
 	app.use(express.favicon());
-	// app.use(express.logger('dev'));
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(app.router);
@@ -26,16 +33,21 @@ app.configure(function () {
 
 });
 
-app.configure('development', function() {
+app.configure('development', function () {
 	app.use(express.errorHandler());
 });
 
 // Route Responses
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
 	res.render('', { title: 'KDD', dev: true });
 });
 
-// Respond to api requests
-http.createServer(app).listen(app.get('port'), function() {
-	console.log("Express server listening on port " + app.get('port'));
-});
+//
+// Manually instantiate server via `node server` command if not being called
+// via Grunt.js
+// 
+if (!module.parent) {
+	http.createServer(app).listen(app.get('port'), function () {
+		console.log('Express server listening on port ' + app.get('port'));
+	});
+}

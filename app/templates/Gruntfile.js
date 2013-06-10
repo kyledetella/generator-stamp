@@ -1,15 +1,9 @@
 // Generated on <%= (new Date).toISOString().split('T')[0] %> using <%= pkg.name %> <%= pkg.version %>
 'use strict';
-var semver = require('semver'),
+var path = require('path'),
+		semver = require('semver'),
 		f = require('util').format,
-		PORT = 3322;
-
-// var LIVERELOAD_PORT = 35729;
-// var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
-// var mountFolder = function (connect, dir) {
-// 	return connect.static(require('path').resolve(dir));
-// };
-
+		PORT = 3000;
 
 module.exports = function (grunt) {
 
@@ -19,8 +13,8 @@ module.exports = function (grunt) {
 
 		banner: [
 			'/*!',
-			' * kdd boilerplate',
-			' * https://github.com/kyledetella/kdd-boilerplate',
+			' * KDD/WCST Project Generator',
+			' * https://github.com/kyledetella/generator-stamp',
 			' */\n\n'
 		].join('\n'),
 
@@ -34,32 +28,23 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-
 		exec: {
 			git_add: {
 				cmd: 'git add .'
 			},
-
 			git_add_u: {
 				cmd: 'git add -u'
 			},
-
 			git_commit: {
 				cmd: function (m) { return f('git commit -m "%s"', m); }
 			},
-
 			git_push: {
 				cmd: 'git push origin deploys'
 			}
 		},
-
 		clean: {
 			clean: ['./public/dist']
 		},
-
-		//
-		// Build & Compile SASS/SCSS Files
-		//
 		compass: {
 			dist: {
 				options: {
@@ -76,54 +61,38 @@ module.exports = function (grunt) {
 			},
 			require: 'zurb-foundation'
 		},
-
-		//
-		// Watch task to live update files & builds
-		//
 		watch: {
 			files: './public/css/scss/*.scss',
-			tasks: ['compass:dev']
+			tasks: ['compass:dev'],
+			options: {
+				nospawn: true,
+				interrupt: true
+			}
 		},
-
 		open: {
 			server: {
-				path: 'http://localhost:<%%= PORT %>'
+				path: 'http://localhost:' + PORT
+			}
+		},
+		express: {
+			custom: {
+				options: {
+					// port: PORT,
+					bases: path.resolve('public'),
+					server: path.resolve('./server')
+				}
 			}
 		}
 	});
 
 
-  //
-  // Register Grunt Tasks
-  // --------------------------------------------------------
-
-
-  //
-  // To pass in a commit message: grunt:release:"Message"
-  // This will re-write and update package.json
-  //
+  // Run specific release task(s)
 	grunt.registerTask('release', 'Ship (dev & production)', function (message) {
-
-		var _ = grunt.util._,
-				commitMessage = message || 'Update';
-
-		//
-		// Run our ordered tasks
-		//
-		grunt.task.run([
-			'clean',
-			'requirejs',
-			'less:production',
-			'exec:git_add',
-			'exec:git_commit:' + commitMessage,
-			'exec:git_push'
-		]);
+		// Run tasks here...
 	});
 
 
-  //
   // Clean Project
-  //
 	grunt.registerTask('sweep', 'Clean up files', function () {
 		grunt.task.run([
 			'clean',
@@ -131,27 +100,21 @@ module.exports = function (grunt) {
 		]);
 	});
 
-
-  //
-  // Register Grunt Tasks
-  //
-
-  // Run initial task
-	grunt.registerTask('go', ['compass:dev']);
-	grunt.registerTask('default', 'build');
-	grunt.registerTask('build', ['requirejs', 'compass:dev']);//, 'sed:version']);
+	grunt.registerTask('go', ['compass:dev', 'express', 'open', 'watch', 'express-keepalive']);
+	grunt.registerTask('default', 'go');
+	grunt.registerTask('build', ['requirejs', 'compass:dev']);
 	grunt.registerTask('watch', ['compass:dev']);
-
-
+	grunt.registerTask('server', ['express', 'express-keepalive']);
 
   //
   // Load NPM Tasks and plugins
   // --------------------------------------------------------
-
 	grunt.loadNpmTasks('grunt-sed');
 	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-compass');
+	grunt.loadNpmTasks('grunt-open');
+	grunt.loadNpmTasks('grunt-express');
 };
