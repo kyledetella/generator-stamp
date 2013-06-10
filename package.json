@@ -1,6 +1,6 @@
 {
   "name": "generator-stamp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A customized Yeoman generator featuring Foundation and AMD js architecture.",
   "keywords": [
     "yeoman-generator",
