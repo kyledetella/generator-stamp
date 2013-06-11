@@ -101,6 +101,7 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('go', ['compass:dev', 'express', 'open', 'watch', 'express-keepalive']);
+	grunt.registerTask('restart', ['compass:dev', 'express', 'watch', 'express-keepalive']);
 	grunt.registerTask('default', 'go');
 	grunt.registerTask('build', ['requirejs', 'compass:dev']);
 	grunt.registerTask('watch', ['compass:dev']);
