@@ -15,7 +15,7 @@
     `npm install -g yo`
 - Install the generator: `npm install -g generator-stamp`
 - Run: `yo stamp`
-– Run: `grunt go` to scaffold out CSS
+- Run: `grunt go` to scaffold out CSS
 – And then finally: `node server` and `grunt watch` to get things up and running!
 
 ## License
