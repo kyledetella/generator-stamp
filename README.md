@@ -16,7 +16,7 @@
 - Install the generator: `npm install -g generator-stamp`
 - Run: `yo stamp`
 - Run: `grunt go` to scaffold out CSS
-– And then finally: `node server` and `grunt watch` to get things up and running!
+- And then finally: `node server` and `grunt watch` to get things up and running!
 
 ## License
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
