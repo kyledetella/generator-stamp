@@ -232,7 +232,7 @@ StampGenerator.prototype.writeIndex = function writeIndex() {
     ]);
   } else {
 
-    var domJS = this.useZepto ? 'js/lib/zepto/zepto.min.js' : 'js/lib/jqeury/jquery.min.js';
+    var domJS = this.useZepto ? 'js/lib/zepto/zepto.min.js' : 'js/lib/jquery/jquery.min.js';
     
     contentText = contentText.concat([
       ' ',
