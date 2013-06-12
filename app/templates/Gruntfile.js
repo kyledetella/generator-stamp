@@ -66,7 +66,7 @@ module.exports = function (grunt) {
 			tasks: ['compass:dev'],
 			options: {
 				nospawn: true,
-				interrupt: true
+				interrupt: false
 			}
 		},
 		open: {
