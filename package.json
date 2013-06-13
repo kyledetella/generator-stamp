@@ -1,12 +1,13 @@
 {
   "name": "generator-stamp",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Yeoman Generator featuring a flyweight Node.js server, Foundation css framework, and customizeable js architecture (AMD optional. Backbone.js optional.).",
   "keywords": [
     "yeoman-generator",
     "amd",
     "foundation",
-    "backbone"
+    "backbone",
+    "scaffold"
   ],
   "homepage": "https://github.com/kyledetella/generator-stamp",
   "bugs": "https://github.com/kyledetella/generator-stamp/issues",

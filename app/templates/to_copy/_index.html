@@ -10,7 +10,7 @@
 
   <link rel="stylesheet" href="css/app/app.css">
 
-  <script src="js/lib/modernizr/modernizr.js"></script>
+  <script src="js/lib/modernizr.min.js"></script>
 </head>
 <body>
   
@@ -22,14 +22,14 @@
   </div>
   
   <% if (useAMD) { %>
-  <script data-main="js/main" src="js/lib/requirejs/require.js"></script>
+  <script data-main="js/main" src="js/lib/require.js"></script>
   <% } else { %>
   <% if (useZepto) { %>
-  <script src="js/lib/zepto/zepto.min.js"></script><% } else { %>
-  <script src="js/lib/jquery/jquery.min.js"></script><% } %>
-  <script src="js/lib/lodash/lodash.js"></script>
-  <% if (useBackbone) { %><script src="js/lib/backbone/backbone-min.js"></script><% } %>
-  <script src="js/lib/handlebars/handlebars.js"></script>
+  <script src="js/lib/zepto.min.js"></script><% } else { %>
+  <script src="js/lib/jquery-1.10.1.min.js"></script><% } %>
+  <script src="js/lib/lodash.compat.min.js"></script>
+  <% if (useBackbone) { %><script src="js/lib/backbone-min.js"></script><% } %>
+  <script src="js/lib/handlebars.js"></script>
   <script src="js/main.js"></script>
   <% } %>
 

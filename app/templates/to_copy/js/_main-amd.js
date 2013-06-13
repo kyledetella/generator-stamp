@@ -2,9 +2,9 @@
 
 requirejs.config({
   paths: {
-    'dom' :         <% if (useZepto) { %>'lib/zepto/zepto.min'<% } else { %>'lib/jquery/jquery.min'<% } %>,
-    '_' :           'lib/lodash/lodash',<% if (useBackbone) { %>'backbone' :    'lib/backbone/backbone-min',<% } %>
-    'handlebars' :  'lib/handlebars/handlebars'
+    'dom' :         <% if (useZepto) { %>'lib/zepto.min'<% } else { %>'lib/jquery-1.10.1.min'<% } %>,
+    '_' :           'lib/lodash.compat.min',<% if (useBackbone) { %>'backbone' :    'lib/backbone-min',<% } %>
+    'handlebars' :  'lib/handlebars'
   },
   shim: {
     'dom' : {

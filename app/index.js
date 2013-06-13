@@ -1,17 +1,58 @@
 'use strict';
 var util = require('util');
 var path = require('path');
+var fs = require('fs');
 var yeoman = require('yeoman-generator');
 
 
 var StampGenerator = function StampGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
+
   //
   // Install npm && bower dependencies
   // 
   this.on('end', function () {
-    this.installDependencies({ skipInstall: options['skip-install'] });
+
+    var _title = this.projectTitle || 'your new app';
+
+    // this.installDependencies({ skipInstall: options['skip-install'] });
+    this.installDependencies({
+      npm: true,
+      bower: false, // Set to `true` when a solution for Bower size issue is found
+      skipInstall: options['skip-install'],
+      callback: function() {
+        var goMessage =
+        '\n' +
+        '\n  *                                                     *'.green +
+        '\n  **                                                   **'.green +
+        '\n  ***                                                 ***'.green +
+        '\n  ****                                               ****'.green +
+        '\n  *****                                             *****'.green +
+        '\n  ******                                           ******'.green +
+        '\n  *******                                         *******'.green +
+        '\n  ********                                       ********'.green + 
+        '\n  -------------------------------------------------------'.green +
+        '\n  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='.green.bold +
+        '\n' +
+        '\n  Have fun building ' + _title .yellow.bold + 
+        '\n' +
+        '\n  Just type ' + 'grunt go'.yellow.bold + ' to fire it up!' +
+        '\n' +
+        '\n  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='.green.bold +
+        '\n  -------------------------------------------------------'.green +
+        '\n  ********                                       ********'.green +
+        '\n  *******                                         *******'.green +
+        '\n  ******                                           ******'.green +
+        '\n  *****                                             *****'.green +
+        '\n  ****                                               ****'.green +
+        '\n  ***                                                 ***'.green +
+        '\n  **                                                   **'.green +
+        '\n  *                                                     *'.green +
+        '\n\n';
+        console.log(goMessage);
+      }
+    });
   });
 
   //
@@ -50,12 +91,12 @@ StampGenerator.prototype.askFor = function askFor() {
     {
       name: 'projectTitle',
       message: 'What is the name of this project?',
-      default: 'Think hard...'
+      default: 'Stamp App'
     },
     {
       name: 'projectDescription',
       message: 'Enter a brief description of this project:',
-      default: 'Make it sexy!'
+      default: 'Crafting an experience!'
     },
     {
       type: 'list',
@@ -99,7 +140,6 @@ StampGenerator.prototype.app = function app() {
 
   // Map our preset directories to the output
   this.directory('public', 'public');
-  this.directory('routes', 'routes');
 
   // Add js file to instantiate a server
   this.template('server.js', 'server.js');
@@ -132,6 +172,24 @@ StampGenerator.prototype.gruntfile = function gruntfile() {
 
 StampGenerator.prototype.packageJSON = function packageJSON() {
   this.copy('_package.json', 'package.json');
+};
+
+StampGenerator.prototype.writeJSFiles = function writeJSFiles() {
+  // Add jQuery, Zepto, Backbone, etc
+  if (this.useAMD) {
+    this.copy('to_copy/js/lib/require.js', 'public/js/lib/require.js');
+  }
+
+  if (this.useBackbone) {
+    this.copy('to_copy/js/lib/backbone-min.js', 'public/js/lib/backbone-min.js');
+  }
+
+  if (this.useZepto) {
+    this.copy('to_copy/js/lib/zepto.min.js', 'public/js/lib/zepto.min.js');
+  } else {
+    this.copy('to_copy/js/lib/jquery-1.10.1.min.js', 'public/js/lib/jquery-1.10.1.min.js');
+  }
+
 };
 
 //
