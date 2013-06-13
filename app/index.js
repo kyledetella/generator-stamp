@@ -19,7 +19,6 @@ var StampGenerator = function StampGenerator(args, options, config) {
   // 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 
-    this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
 };
 
 util.inherits(StampGenerator, yeoman.generators.Base);
@@ -69,6 +68,12 @@ StampGenerator.prototype.askFor = function askFor() {
       name: 'useAMD',
       message: 'Would you like to use AMD modules?',
       default: 'Y/n'
+    },
+    {
+      type: 'confirm',
+      name: 'useBackbone',
+      message: 'Would you like to include Backbone.js?',
+      default: 'Y/n'
     }
   ];
 
@@ -88,8 +93,9 @@ StampGenerator.prototype.askFor = function askFor() {
     // 
     this.projectTitle = props.projectTitle;
     this.projectDescription = props.projectDescription;
-    this.useZepto = props.useZepto.toLowerCase() === 'y';
-    this.useAMD = props.useAMD.toLowerCase() === 'y';
+    this.useZepto = this._confirm(props.useZepto);
+    this.useAMD = this._confirm(props.useAMD);//props.useAMD.toLowerCase() === 'y';
+    this.useBackbone = this._confirm(props.useBackbone);//props.useBackbone.toLowerCase() === 'y';
 
     cb();
   }.bind(this));
@@ -140,119 +146,48 @@ StampGenerator.prototype.packageJSON = function packageJSON() {
 // Write our main.js file -> IF using AMD
 // 
 StampGenerator.prototype.writeMainJS = function writeMainJS() {
-  
-  var mainJsFile = [];
-
   if (!this.useAMD) {
+    // Write out utility js file
+    this.copy('to_copy/js/_core.js', 'public/js/app/core.js');
 
-    // Write a standard js entry file
-    mainJsFile = [
-      '(function() {',
-      ' ',
-      ' console.log(\'' + this.projectTitle + '\');',
-      ' console.log(app);',
-      ' ',
-      '})();'
-    ];
-
-    // Add in the core.js file (amd version)
-    this.copy('to_copy/js/core.js', 'public/js/app/core.js');
+    // Write out main.js
+    this.copy('to_copy/js/_main.js', 'public/js/main.js');
 
   } else {
-    // Write a requireJS entry file
-    mainJsFile = [
-      '\'use strict\';',
+    // Write out utility js file
+    this.copy('to_copy/js/_core_amd.js', 'public/js/app/core-amd.js');
 
-      'requirejs.config({',
-      ' paths: {'
-    ];
-
-
-    if (this.useZepto) {
-      mainJsFile.push('   \'dom\': \'lib/zepto/zepto.min\',');
-    } else {
-      mainJsFile.push('   \'dom\': \'lib/jquery/jquery.min\',');
-    }
-
-    mainJsFile.push(
-      '   \'_\': \'lib/lodash/lodash\',',
-      '   \'backbone\': \'lib/backbone/backbone-min\',',
-      '   \'handlebars\': \'lib/handlebars/handlebars\',',
-      '   \'app\': \'app/core-amd\'',
-      ' },',
-      ' shim: {',
-      '   \'dom\' : {',
-      '     exports: \'$\'',
-      '   },',
-      '   \'backbone\' : {',
-      '     deps: [\'_\', \'dom\'],',
-      '     exports: \'Backbone\'',
-      '   },',
-      '   \'_\' : {',
-      '     exports: \'_\'',
-      '   },',
-      '   \'handlebars\' : {',
-      '     exports: \'Handlebars\'',
-      '   }',
-      ' }',
-      '});',
-      ' ',
-      'require([',
-      ' \'app\'',
-      '], function (app) {',
-      ' console.log(\'' + this.projectTitle + '\');',
-      ' console.log(app);',
-      '});'
-    );
-
-    // Add in the core.js file (amd version)
-    this.copy('to_copy/js/core_amd.js', 'public/js/app/core-amd.js');
-
-  } // end else
-
-  this.write('public/js/main.js', mainJsFile.join('\n'));
-};
-
-StampGenerator.prototype.writeIndex = function writeIndex() {
-
-  var contentText = [
-    '    <div class="row">',
-    '      <div class="large-10 columns large-centered">',
-    '        <h1>' + this.projectTitle + '</h1>',
-    '        <div class="panel">' + this.projectDescription + '</div>',
-    '      </div>',
-    '    </div>'
-  ];
-
-  if(this.useAMD) {
-    contentText = contentText.concat([
-      ' ',
-      ' ',
-      '   <script data-main="js/main" src="js/lib/requirejs/require.js"></script>'
-    ]);
-  } else {
-
-    var domJS = this.useZepto ? 'js/lib/zepto/zepto.min.js' : 'js/lib/jquery/jquery.min.js';
-    
-    contentText = contentText.concat([
-      ' ',
-      '   <script src="' + domJS + '"></script>',
-      '   <script src="js/lib/lodash/lodash.js"></script>',
-      '   <script src="js/lib/backbone/backbone-min.js"></script>',
-      '   <script src="js/lib/handlebars/handlebars.js"></script>',
-      '   <script src="js/app/core.js"></script>',
-      '   <script src="js/main.js"></script>'
-    ]);   
+    // Write out main.js
+    this.copy('to_copy/js/_main-amd.js', 'public/js/main.js');
   }
+};
 
-  // append the default content
-  this.indexFile = this.indexFile.replace('<body>', '<body>\n' + contentText.join('\n'));  
+//
+// Write index.html
+// 
+StampGenerator.prototype.writeIndex = function writeIndex() {
+  // Write index.html
+  this.copy('to_copy/_index.html', 'public/index.html');
 };
 
 
-StampGenerator.prototype.setupEnv = function setupEnv() {
-  this.write('public/index.html', this.indexFile);
+// StampGenerator.prototype.setupEnv = function setupEnv() {
+//   // this.write('public/index.html', this.indexFile);
+// };
+
+
+/**
+ * Private Methods
+ */
+//
+// Allow users to enter any of the following to confirm a choice:
+// y, yes, Y, Yes, YES, true, True, TRUE
+StampGenerator.prototype._confirm = function confirm(val) {
+  val = val.toLowerCase();
+  return (val === 'y' || val === 'yes' || val === 'true');
 };
+
+
 
 /**
  * Export Statement
