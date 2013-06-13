@@ -11,13 +11,6 @@ module.exports = function (grunt) {
 
 		buildDir: './public/dist',
 
-		banner: [
-			'/*!',
-			' * <%= projectTitle %>',
-			' * <%= projectDescription %>',
-			' */\n\n'
-		].join('\n'),
-
 		requirejs: {
 			compile: {
 				options: {
