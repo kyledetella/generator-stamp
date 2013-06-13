@@ -1,7 +1,8 @@
 # Generator-Stamp
 [![Build Status](https://secure.travis-ci.org/kyledetella/generator-stamp.png?branch=master)](https://travis-ci.org/kyledetella/generator-stamp)
 
-## A customized [Yeoman](http://yeoman.io) generator
+## Stamp Generator
+  A [Yeoman](http://yeoman.io) generator for scaffolding out a scalable web application.
   Quick Features:
   + A flyweight node.js server
   + [ZURB's Foundation](http://foundation.zurb.com)
@@ -23,7 +24,7 @@
   + Run: `yo stamp` (make sure to cd into the directory where you wish to run your app)
   + Finally, run: `grunt go` and start coding!
 
-### Available Grunt Tasks
+## Grunt Tasks
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins.
 
   + `grunt go` - This will fire up a node.js server, setup watch tasks, and open your browser pointed at your app
@@ -32,11 +33,45 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
 ```js
   // If using AMD
   define(['templates'], function(templates) {
-    // templates['template_name'];
+      // templates['template_name'];
   });
   
   // If not using AMD
   window.JST.['template_name'];
+```
+  + `grunt restart` – Restart all tasks intiated via `grunt go` except browser will not auto-open
+  
+## Your App
+### The output of your base application will look like this:
+
+``` unicode
+.
+├── Gruntfile.js
+├── config.rb
+├── package.json
+├── public
+│   ├── css
+│   │   ├── app
+│   │   │   └── app.css
+│   │   └── scss
+│   │       ├── _settings.scss
+│   │       └── app.scss
+│   ├── img
+│   ├── index.html
+│   ├── js
+│   │   ├── lib
+│   │   │   ├── backbone-min.js
+│   │   │   ├── handlebars.js
+│   │   │   ├── lodash.compat.min.js
+│   │   │   ├── modernizr.min.js
+│   │   │   ├── require.js
+│   │   │   └── zepto.min.js
+│   │   ├── main.js
+│   │   └── templates
+│   │       └── templates.js
+│   └── templates
+└── server.js
+
 ```
 
 ## License
