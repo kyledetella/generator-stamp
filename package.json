@@ -1,7 +1,7 @@
 {
   "name": "generator-stamp",
   "version": "0.5.0",
-  "description": "A customized Yeoman generator featuring Foundation and AMD js architecture.",
+  "description": "Yeoman Generator featuring a flyweight Node.js server, Foundation css framework, and customizeable js architecture (AMD optional. Backbone.js optional.).",
   "keywords": [
     "yeoman-generator",
     "amd",
