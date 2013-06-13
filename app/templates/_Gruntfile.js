@@ -137,7 +137,7 @@ module.exports = function (grunt) {
 	//
 	// Call the `watch` task in isolation
 	// 
-	grunt.registerTask('watch', ['compass:dev']);
+	grunt.registerTask('watch', ['compass:dev','handlebars']);
 
 	//
 	// Call the `server` task in isolation

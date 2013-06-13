@@ -2,20 +2,32 @@
 [![Build Status](https://secure.travis-ci.org/kyledetella/generator-stamp.png?branch=master)](https://travis-ci.org/kyledetella/generator-stamp)
 
 ## A customized [Yeoman](http://yeoman.io) generator
-  Features:
+  Quick Features:
   + A flyweight node.js server
   + [ZURB's Foundation](http://foundation.zurb.com)
-  + AMD Javascript Module architecture (default, but optional)
-  + Backbone.js ready
-    
+  + Sane & scalable javascript architecture (AMD modules optional)
+  + Optional inclusion of Backbone.js
+  + Handlebars templates
+
+## Requirements
+  + [Node.js](http://nodejs.org)
+  + [Compass](http://compass-style.org/)
+  + [zurb-foundation gem](http://foundation.zurb.com/docs/sass.html)
+  + [grunt-cli](http://gruntjs.com/getting-started)
+    `npm install -g grunt-cli`
+  + Yeoman [yo](https://github.com/yeoman/yo)
+    `npm install -g yo`
 
 ## Getting started
-**Make sure you have installed the [zurb-foundation gem](http://foundation.zurb.com/docs/sass.html)**
-- Make sure you have [yo](https://github.com/yeoman/yo) installed:
-    `npm install -g yo`
-- Install the generator: `npm install -g generator-stamp`
-- Run: `yo stamp`
-- Finally, run: `grunt go` and start coding!
+  + Install the generator globally: `npm install -g generator-stamp`
+  + Run: `yo stamp` (make sure to cd into the directory where you wish to run your app)
+  + Finally, run: `grunt go` and start coding!
+
+### Available Grunt Tasks
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins.
+
+  + `grunt go` - This will fire up a node.js server, setup watch tasks, and open your browser pointed at your app
+  + `grunt server` – This will spin up the node.js server (_note_, you may also fire up the node server via `node server`)
 
 ## License
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
