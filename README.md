@@ -18,7 +18,7 @@
 ```shell
 npm install -g grunt-cli
 ```
-  + [yo](https://github.com/yeoman/yo)
+  + [yo](https://github.com/yeoman/yo)  
 ```shell
 npm install -g yo
 ```
