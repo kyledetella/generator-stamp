@@ -3,7 +3,6 @@
 var path = require('path'),
 		semver = require('semver'),
 		f = require('util').format,
-		_str = require('underscore.string'),
 		PORT = 3000;
 
 module.exports = function (grunt) {
