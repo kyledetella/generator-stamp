@@ -2,7 +2,7 @@
 [![Build Status](https://secure.travis-ci.org/kyledetella/generator-stamp.png?branch=master)](https://travis-ci.org/kyledetella/generator-stamp)
 
 ## Stamp Generator
-  A [Yeoman](http://yeoman.io) generator for scaffolding out a scalable web application.
+  A [Yeoman](http://yeoman.io) generator for scaffolding out a scalable web application.  
   Quick Features:
   + A flyweight node.js server
   + [ZURB's Foundation](http://foundation.zurb.com)
