@@ -42,13 +42,15 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
   + `grunt restart` – Restart all tasks intiated via `grunt go` except browser will not auto-open
   
 ## Your App
-### The output of your base application will look like this:
+### Stamp will scaffold out you project with the following structure:
 
 ``` unicode
 .
 ├── Gruntfile.js
 ├── config.rb
 ├── package.json
+├── node_modules
+│   ├── ...
 ├── public
 │   ├── css
 │   │   ├── app
