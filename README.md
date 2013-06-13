@@ -14,8 +14,8 @@
   + [Node.js](http://nodejs.org)
   + [Compass](http://compass-style.org/)
   + [zurb-foundation gem](http://foundation.zurb.com/docs/sass.html)
-  + [grunt-cli](http://gruntjs.com/getting-started)
-```unicode
+  + [grunt-cli](http://gruntjs.com/getting-started)  
+```shell
 npm install -g grunt-cli
 ```
   + [yo](https://github.com/yeoman/yo)
