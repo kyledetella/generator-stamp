@@ -32,7 +32,7 @@ npm install -g yo
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins.
 
   + `grunt go` - This will fire up a node.js server, setup watch tasks, and open your browser pointed at your app
-  + `grunt server` – This will spin up the node.js server (*note*, you may also fire up the node server via `node server`)
+  + `grunt server` – This will spin up the node.js server ( *note* , you may also fire up the node server via `node server`)
   + `grunt templates` – Will compile all `.hbs` files within `public/templates` into `templates.js` and will be accessible via
 ```js
   // If using AMD
