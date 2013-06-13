@@ -1,6 +1,6 @@
 (function () {
   'use strict';
 
-  console.log('Welcome to <%= projectTitle %>');
+  console.log('You\'ve just Stamped out <%= projectTitle %>!');
 
 })();

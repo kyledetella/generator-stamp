@@ -4,8 +4,7 @@ requirejs.config({
   paths: {
     'dom' :         <% if (useZepto) { %>'lib/zepto/zepto.min'<% } else { %>'lib/jquery/jquery.min'<% } %>,
     '_' :           'lib/lodash/lodash',<% if (useBackbone) { %>'backbone' :    'lib/backbone/backbone-min',<% } %>
-    'handlebars' :  'lib/handlebars/handlebars',
-    'app' :         'app/core-amd'
+    'handlebars' :  'lib/handlebars/handlebars'
   },
   shim: {
     'dom' : {
@@ -23,8 +22,9 @@ requirejs.config({
   }
 });
 
-require([
-  'app'
-], function (app) {
-  console.log('Welcome to <%= projectTitle %>');
+//
+// Initialize your app!
+// 
+require([], function () {
+  console.log('You\'ve just Stamped out <%= projectTitle %>!');
 });

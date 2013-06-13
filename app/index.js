@@ -58,44 +58,35 @@ StampGenerator.prototype.askFor = function askFor() {
       default: 'Make it sexy!'
     },
     {
-      type: 'confirm',
-      name: 'useZepto',
-      message: 'Would you like to use Zepto instead of jQuery?',
-      default: 'Y/n'
+      type: 'list',
+      name: 'domLib',
+      message: 'Choose your DOM library.',
+      choices: ['jQuery', 'Zepto']
     },
     {
       type: 'confirm',
       name: 'useAMD',
       message: 'Would you like to use AMD modules?',
-      default: 'Y/n'
+      default: true
     },
     {
       type: 'confirm',
       name: 'useBackbone',
       message: 'Would you like to include Backbone.js?',
-      default: 'Y/n'
+      default: true
     }
   ];
+
 
   //
   // Run prompt
   // 
-  this.prompt(prompts, function (err, props) {
-
-    if (err) { return this.emit('error', err); }
-
-    //
-    // `props` – Object containing response values
-    // ###
-    // Attach response values to this instance
-    // ###
-    // 
-    // 
+  this.prompt(prompts, function (props) {
     this.projectTitle = props.projectTitle;
     this.projectDescription = props.projectDescription;
-    this.useZepto = this._confirm(props.useZepto);
-    this.useAMD = this._confirm(props.useAMD);//props.useAMD.toLowerCase() === 'y';
-    this.useBackbone = this._confirm(props.useBackbone);//props.useBackbone.toLowerCase() === 'y';
+    this.useZepto = props.domLib === 'Zepto';
+    this.useAMD = props.useAMD;
+    this.useBackbone = props.useBackbone;
 
     cb();
   }.bind(this));
@@ -135,7 +126,8 @@ StampGenerator.prototype.jshint = function jshint() {
 };
 
 StampGenerator.prototype.gruntfile = function gruntfile() {
-  this.template('Gruntfile.js', 'Gruntfile.js');
+  this.copy('_Gruntfile.js', 'Gruntfile.js');
+  // this.template('Gruntfile.js', 'Gruntfile.js');
 };
 
 StampGenerator.prototype.packageJSON = function packageJSON() {
@@ -146,20 +138,8 @@ StampGenerator.prototype.packageJSON = function packageJSON() {
 // Write our main.js file -> IF using AMD
 // 
 StampGenerator.prototype.writeMainJS = function writeMainJS() {
-  if (!this.useAMD) {
-    // Write out utility js file
-    this.copy('to_copy/js/_core.js', 'public/js/app/core.js');
-
-    // Write out main.js
-    this.copy('to_copy/js/_main.js', 'public/js/main.js');
-
-  } else {
-    // Write out utility js file
-    this.copy('to_copy/js/_core_amd.js', 'public/js/app/core-amd.js');
-
-    // Write out main.js
-    this.copy('to_copy/js/_main-amd.js', 'public/js/main.js');
-  }
+  var to_copy = this.useAMD ? '_main-amd.js' : '_main.js';
+  this.copy('to_copy/js/' + to_copy, 'public/js/main.js');
 };
 
 //
@@ -169,12 +149,6 @@ StampGenerator.prototype.writeIndex = function writeIndex() {
   // Write index.html
   this.copy('to_copy/_index.html', 'public/index.html');
 };
-
-
-// StampGenerator.prototype.setupEnv = function setupEnv() {
-//   // this.write('public/index.html', this.indexFile);
-// };
-
 
 /**
  * Private Methods
