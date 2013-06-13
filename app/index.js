@@ -152,10 +152,10 @@ StampGenerator.prototype.git = function git() {
   this.copy('gitignore', '.gitignore');
 };
 
-StampGenerator.prototype.bower = function bower() {
-  this.copy('_bower.json', 'bower.json');
-  this.copy('bowerrc', '.bowerrc');
-};
+// StampGenerator.prototype.bower = function bower() {
+//   this.copy('_bower.json', 'bower.json');
+//   this.copy('bowerrc', '.bowerrc');
+// };
 
 StampGenerator.prototype.editorConfig = function editorConfig() {
   this.copy('editorconfig', '.editorconfig');
@@ -167,7 +167,6 @@ StampGenerator.prototype.jshint = function jshint() {
 
 StampGenerator.prototype.gruntfile = function gruntfile() {
   this.copy('_Gruntfile.js', 'Gruntfile.js');
-  // this.template('Gruntfile.js', 'Gruntfile.js');
 };
 
 StampGenerator.prototype.packageJSON = function packageJSON() {
@@ -178,6 +177,9 @@ StampGenerator.prototype.writeJSFiles = function writeJSFiles() {
   // Add jQuery, Zepto, Backbone, etc
   if (this.useAMD) {
     this.copy('to_copy/js/lib/require.js', 'public/js/lib/require.js');
+    this.copy('to_copy/js/templates/templates-amd.js', 'public/js/templates/templates.js');
+  } else {
+    this.copy('to_copy/js/templates/templates.js', 'public/js/templates/templates.js');
   }
 
   if (this.useBackbone) {

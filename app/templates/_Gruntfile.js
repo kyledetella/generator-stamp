@@ -3,6 +3,7 @@
 var path = require('path'),
 		semver = require('semver'),
 		f = require('util').format,
+		_str = require('underscore.string'),
 		PORT = 3000;
 
 module.exports = function (grunt) {
@@ -55,11 +56,22 @@ module.exports = function (grunt) {
 			require: 'zurb-foundation'
 		},
 		watch: {
-			files: './public/css/scss/*.scss',
-			tasks: ['compass:dev'],
-			options: {
-				nospawn: true,
-				interrupt: false
+			css: {
+				files: './public/css/scss/*.scss',
+				tasks: ['compass:dev'],
+				options: {
+					// livereload: 35729,
+					nospawn: true,
+					interrupt: false
+				}
+			},
+			scripts: {
+				files: './public/templates/**/*.hbs',
+				tasks: ['handlebars'],
+				options: {
+					interrupt: false,
+					nospawn: true
+				}
 			}
 		},
 		open: {
@@ -75,6 +87,23 @@ module.exports = function (grunt) {
 					server: path.resolve('./server')
 				}
 			}
+		},
+		handlebars: {
+		  compile: {
+		    options: {
+		      namespace: 'JST',<% if (useAMD) { %>
+		      amd: true,<% } %>
+		      node: true,
+		      // Clean up the nave this will be stored under
+	        processName: function (filename) {
+				    var str = filename.split('.hbs')[0].split('./public/templates/')[1];
+						return str.indexOf('/') !== -1 ? str.split('/').join('.') : str;
+				  }
+		    },
+		    files: {
+		      './public/js/templates/templates.js': './public/templates/**/*.hbs'
+		    }
+		  }
 		}
 	});
 
@@ -83,6 +112,7 @@ module.exports = function (grunt) {
 	// 
 	grunt.registerTask('go', [
 		'compass:dev',
+		'handlebars',
 		'express',
 		'open',
 		'watch',
@@ -116,6 +146,11 @@ module.exports = function (grunt) {
 	grunt.registerTask('server', ['express', 'express-keepalive']);
 
 	//
+	// Compile templates
+	// 
+	grunt.registerTask('templates', ['handlebars']);
+
+	//
 	// Define default task
 	// 
 	grunt.registerTask('default', 'go');
@@ -131,4 +166,5 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-open');
 	grunt.loadNpmTasks('grunt-express');
+	grunt.loadNpmTasks('grunt-contrib-handlebars');
 };
