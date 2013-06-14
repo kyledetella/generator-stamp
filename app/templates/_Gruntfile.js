@@ -3,24 +3,39 @@
 var path = require('path'),
 		semver = require('semver'),
 		f = require('util').format,
-		PORT = 3000;
+		PORT = 3000,
+		public_dir = 'public',
+		app_path = './' + public_dir + '/',
+		USE_AMD = <% if (useAMD) { %>true<% } else { %>false<% }%>;
 
 module.exports = function (grunt) {
+
+	//
+	// Utility methods
+	// 
+	var methods = {
+		getHandlebarsFilePaths: function () {
+			var _files = {};
+	    _files[app_path + 'js/templates/templates.js'] = app_path + 'templates/**/*.hbs';
+	    return _files;
+		}
+	};
+
 
 	grunt.initConfig({
 
 		buildDir: './public/dist',
-
+		<% if (useAMD) { %>
 		requirejs: {
 			compile: {
 				options: {
-					baseUrl: 'public/js',
+					baseUrl: app_path + 'js',
 					name: 'main',
-					mainConfigFile: 'public/js/main.js',
-					out: 'public/dist/js/app.min.js'
+					mainConfigFile: app_path + 'js/main.js',
+					out: app_path + 'build/js/app.min.js'
 				}
 			}
-		},
+		},<% } %>
 		exec: {
 			git_add: {
 				cmd: 'git add .'
@@ -36,7 +51,7 @@ module.exports = function (grunt) {
 			}
 		},
 		clean: {
-			clean: ['./public/dist']
+			clean: [app_path + 'build']
 		},
 		compass: {
 			dist: {
@@ -56,20 +71,17 @@ module.exports = function (grunt) {
 		},
 		watch: {
 			css: {
-				files: './public/css/scss/*.scss',
+				files: app_path + 'css/scss/*.scss',
 				tasks: ['compass:dev'],
 				options: {
-					// livereload: 35729,
-					nospawn: true,
 					interrupt: false
 				}
 			},
-			scripts: {
-				files: './public/templates/**/*.hbs',
+			templates: {
+				files: app_path + 'templates/**/*.hbs',
 				tasks: ['handlebars'],
 				options: {
-					interrupt: false,
-					nospawn: true
+					interrupt: false
 				}
 			}
 		},
@@ -82,7 +94,7 @@ module.exports = function (grunt) {
 			custom: {
 				options: {
 					// port: PORT,
-					bases: path.resolve('public'),
+					bases: path.resolve(public_dir),
 					server: path.resolve('./server')
 				}
 			}
@@ -90,18 +102,16 @@ module.exports = function (grunt) {
 		handlebars: {
 		  compile: {
 		    options: {
-		      namespace: 'JST',<% if (useAMD) { %>
-		      amd: true,<% } %>
+		      namespace: 'JST',
+		      amd: USE_AMD,
 		      node: true,
-		      // Clean up the nave this will be stored under
+		      // Clean up the name this will be stored under
 	        processName: function (filename) {
-				    var str = filename.split('.hbs')[0].split('./public/templates/')[1];
+				    var str = filename.split('.hbs')[0].split('./' + public_dir + '/templates/')[1];
 						return str.indexOf('/') !== -1 ? str.split('/').join('.') : str;
 				  }
 		    },
-		    files: {
-		      './public/js/templates/templates.js': './public/templates/**/*.hbs'
-		    }
+		    files: methods.getHandlebarsFilePaths()
 		  }
 		},
 	  imagemin: {
@@ -112,9 +122,9 @@ module.exports = function (grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: './public/img/',
+						cwd: app_path + 'img/',
 						src: ['**/*.png', '**/*.jpg'],
-						dest: './public/build/img/'
+						dest: app_path + 'build/img/'
 					}
 				]
 			},
@@ -125,9 +135,9 @@ module.exports = function (grunt) {
 	      files: [
 	        {
 	          expand: true,     // Enable dynamic expansion.
-	          cwd: './public/img/',      // Src matches are relative to this path.
+	          cwd: app_path + 'img/',      // Src matches are relative to this path.
 	          src: ['**/*.png', '**/*.jpg'], // Actual pattern(s) to match.
-	          dest: './public/build/img/'   // Destination path prefix.
+	          dest: app_path + 'build/img/'   // Destination path prefix.
 	        },
 	      ]
 	    }
@@ -151,6 +161,7 @@ module.exports = function (grunt) {
 	// 
 	grunt.registerTask('restart', [
 		'compass:dev',
+		'handlebars',
 		'express',
 		'watch',
 		'express-keepalive'
@@ -161,12 +172,22 @@ module.exports = function (grunt) {
 	// TODO: Refine outputs and scheduling of tasks
 	// TODO: Allow options to be passed in such as build:staging, build:release
 	// 
-	grunt.registerTask('build', ['requirejs', 'compass:dev', 'handlebars', 'imagemin']);
+	// grunt.registerTask('build', ['requirejs', 'compass:dev', 'handlebars', 'imagemin']);
+	grunt.registerTask('build', function () {
+		var tasks = [
+			'compass:dev',
+			'handlebars',
+			'imagemin'
+		];
+		if (USE_AMD) tasks.splice(0, 0, 'requirejs');
+		console.log(tasks);
+		grunt.task.run(tasks);
+	});
 
 	//
 	// Call the `watch` task in isolation
 	// 
-	grunt.registerTask('watch', ['compass:dev','handlebars']);
+	grunt.registerTask('watch', ['compass:dev', 'handlebars']);
 
 	//
 	// Call the `server` task in isolation
@@ -190,10 +211,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-open');
 	grunt.loadNpmTasks('grunt-express');
 	grunt.loadNpmTasks('grunt-contrib-handlebars');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
+	<% if (useAMD) { %>grunt.loadNpmTasks('grunt-contrib-requirejs');<% } %>
 };
