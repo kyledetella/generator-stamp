@@ -33,9 +33,12 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
   define(['templates'], function(templates) {
       // templates['template_name'];
   });
-  
+```
+  or
+
+``` js
   // If not using AMD
-  window.JST.['template_name'];
+  window.JST['template_name'];
 ```
   + `grunt restart` – Restart all tasks intiated via `grunt go` except browser will not auto-open
   + `grunt imagemin` – Optimize all images in `/public/img`.
