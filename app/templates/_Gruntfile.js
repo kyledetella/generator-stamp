@@ -2,6 +2,7 @@
 'use strict';
 var path = require('path'),
 		semver = require('semver'),
+		_s = require('underscore.string'),
 		f = require('util').format,
 		PORT = 3000,
 		public_dir = 'public',
@@ -14,9 +15,12 @@ module.exports = function (grunt) {
 	// Utility methods
 	// 
 	var methods = {
+		getHandlebarsFiles: function () {
+			return app_path + 'templates/**/*.hbs';
+		},
 		getHandlebarsFilePaths: function () {
 			var _files = {};
-	    _files[app_path + 'js/templates/templates.js'] = app_path + 'templates/**/*.hbs';
+	    _files[app_path + 'js/templates/templates.js'] = this.getHandlebarsFiles();
 	    return _files;
 		}
 	};
@@ -77,8 +81,8 @@ module.exports = function (grunt) {
 					interrupt: false
 				}
 			},
-			templates: {
-				files: app_path + 'templates/**/*.hbs',
+			handlebars: {
+				files: methods.getHandlebarsFiles(),
 				tasks: ['handlebars'],
 				options: {
 					interrupt: false
@@ -107,8 +111,8 @@ module.exports = function (grunt) {
 		      node: true,
 		      // Clean up the name this will be stored under
 	        processName: function (filename) {
-				    var str = filename.split('.hbs')[0].split('./' + public_dir + '/templates/')[1];
-						return str.indexOf('/') !== -1 ? str.split('/').join('.') : str;
+				    var st = filename.split('.hbs')[0].split('./' + public_dir + '/templates/')[1];
+						return st.indexOf('/') !== -1 ? _s.camelize(st.split('/').join('-')) : st;
 				  }
 		    },
 		    files: methods.getHandlebarsFilePaths()
@@ -197,7 +201,7 @@ module.exports = function (grunt) {
 	//
 	// Compile templates
 	// 
-	grunt.registerTask('templates', ['handlebars']);
+	grunt.registerTask('compileTemplates', ['handlebars']);
 
 	//
 	// Define default task
