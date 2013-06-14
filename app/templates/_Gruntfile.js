@@ -103,7 +103,35 @@ module.exports = function (grunt) {
 		      './public/js/templates/templates.js': './public/templates/**/*.hbs'
 		    }
 		  }
-		}
+		},
+	  imagemin: {
+			dist: {
+				options: {
+					optimizationLevel: 1
+				},
+				files: [
+					{
+						expand: true,
+						cwd: './public/img/',
+						src: ['**/*.png', '**/*.jpg'],
+						dest: './public/build/img/'
+					}
+				]
+			},
+	    dev: {
+	      options: {
+	        optimizationLevel: 1
+	      },
+	      files: [
+	        {
+	          expand: true,     // Enable dynamic expansion.
+	          cwd: './public/img/',      // Src matches are relative to this path.
+	          src: ['**/*.png', '**/*.jpg'], // Actual pattern(s) to match.
+	          dest: './public/build/img/'   // Destination path prefix.
+	        },
+	      ]
+	    }
+	  }
 	});
 
 	//
@@ -131,8 +159,9 @@ module.exports = function (grunt) {
 	//
 	// Run build operations
 	// TODO: Refine outputs and scheduling of tasks
+	// TODO: Allow options to be passed in such as build:staging, build:release
 	// 
-	grunt.registerTask('build', ['requirejs', 'compass:dev']);
+	grunt.registerTask('build', ['requirejs', 'compass:dev', 'handlebars', 'imagemin']);
 
 	//
 	// Call the `watch` task in isolation
@@ -166,4 +195,5 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-open');
 	grunt.loadNpmTasks('grunt-express');
 	grunt.loadNpmTasks('grunt-contrib-handlebars');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 };
