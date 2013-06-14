@@ -37,7 +37,6 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
 
   or  
 
-
 ``` js
   // If not using AMD
   window.JST['template_name'];
