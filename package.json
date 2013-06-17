@@ -1,6 +1,6 @@
 {
   "name": "generator-stamp",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "description": "Yeoman Generator featuring a flyweight Node.js server, Foundation css framework, and customizeable js architecture (AMD optional. Backbone.js optional.). Also includes Handlebars templates.",
   "keywords": [
     "yeoman-generator",
