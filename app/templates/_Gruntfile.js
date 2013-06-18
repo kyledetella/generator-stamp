@@ -28,8 +28,7 @@ module.exports = function (grunt) {
 
 	grunt.initConfig({
 
-		buildDir: './public/dist',
-		<% if (useAMD) { %>
+		buildDir: './public/dist',<% if (useAMD) { %>
 		requirejs: {
 			compile: {
 				options: {
@@ -60,15 +59,26 @@ module.exports = function (grunt) {
 		compass: {
 			dist: {
 				options: {
-					config: 'config.rb',
-					environment: 'production'
+					environment: 'production',
+					require: 'zurb-foundation',
+					httpPath: '/',
+					basePath: './public',
+					cssDir: 'css/app',
+					sassDir: 'css/scss',
+					imagesDir: 'img',
+					javascriptsDir: 'js'	
 				}
 			},
 			dev: {
 				options: {
-				  // Target our config.rb to unify Foundation scaffolding
-					config: 'config.rb',
-					environment: 'development'
+				  environment: 'development',
+					require: 'zurb-foundation',
+					httpPath: '/',
+					basePath: './public',
+					cssDir: 'css/app',
+					sassDir: 'css/scss',
+					imagesDir: 'img',
+					javascriptsDir: 'js'					
 				}
 			},
 			require: 'zurb-foundation'

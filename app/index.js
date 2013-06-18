@@ -143,8 +143,6 @@ StampGenerator.prototype.app = function app() {
 
   // Add js file to instantiate a server
   this.template('server.js', 'server.js');
-
-  this.template('config.rb', 'config.rb');
 };
 
 
