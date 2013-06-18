@@ -26,8 +26,7 @@
   },
   "dependencies": {
     "express": "3.x",
-    "hbs": "~2.1.0",
-    "grunt-requirejs": "0.3.5"    
+    "hbs": "~2.1.0"
   },
   "scripts": {
     "start": "node server"
