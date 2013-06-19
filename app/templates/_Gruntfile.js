@@ -26,9 +26,7 @@ module.exports = function (grunt) {
 	};
 
 
-	grunt.initConfig({
-
-		buildDir: './public/dist',<% if (useAMD) { %>
+	grunt.initConfig({<% if (useAMD) { %>
 		requirejs: {
 			compile: {
 				options: {
@@ -66,7 +64,8 @@ module.exports = function (grunt) {
 					cssDir: 'css/app',
 					sassDir: 'css/scss',
 					imagesDir: 'img',
-					javascriptsDir: 'js'	
+					javascriptsDir: 'js',
+					debugInfo: false
 				}
 			},
 			dev: {
@@ -78,10 +77,10 @@ module.exports = function (grunt) {
 					cssDir: 'css/app',
 					sassDir: 'css/scss',
 					imagesDir: 'img',
-					javascriptsDir: 'js'					
+					javascriptsDir: 'js',
+					debugInfo: true
 				}
-			},
-			require: 'zurb-foundation'
+			}
 		},
 		watch: {
 			css: {
