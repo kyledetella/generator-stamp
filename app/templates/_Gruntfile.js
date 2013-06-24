@@ -51,6 +51,14 @@ module.exports = function (grunt) {
 				cmd: 'git push origin deploys'
 			}
 		},
+	  bgShell: {
+      _defaults: {
+        bg: true
+      },
+      runNode: {
+        cmd: 'node node_modules/nodemon ./server.js'
+      }
+    },		
 		clean: {
 			clean: [app_path + 'build']
 		},
@@ -101,15 +109,6 @@ module.exports = function (grunt) {
 		open: {
 			server: {
 				path: 'http://localhost:' + PORT
-			}
-		},
-		express: {
-			custom: {
-				options: {
-					// port: PORT,
-					bases: path.resolve(public_dir),
-					server: path.resolve('./server')
-				}
 			}
 		},
 		handlebars: {
@@ -163,10 +162,9 @@ module.exports = function (grunt) {
 	grunt.registerTask('go', [
 		'compass:dev',
 		'handlebars',
-		'express',
+		'bgShell:runNode',
 		'open',
-		'watch',
-		'express-keepalive'
+		'watch'
 	]);
 
 	//
@@ -175,9 +173,8 @@ module.exports = function (grunt) {
 	grunt.registerTask('restart', [
 		'compass:dev',
 		'handlebars',
-		'express',
-		'watch',
-		'express-keepalive'
+		'bgShell:runNode',
+		'watch'
 	]);
 
 	//
@@ -205,7 +202,7 @@ module.exports = function (grunt) {
 	//
 	// Call the `server` task in isolation
 	// 
-	grunt.registerTask('server', ['express', 'express-keepalive']);
+	grunt.registerTask('server', ['bgShell:runNode']);
 
 	//
 	// Compile templates
@@ -226,8 +223,8 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-open');
-	grunt.loadNpmTasks('grunt-express');
 	grunt.loadNpmTasks('grunt-contrib-handlebars');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
+	grunt.loadNpmTasks('grunt-bg-shell');
 	<% if (useAMD) { %>grunt.loadNpmTasks('grunt-contrib-requirejs');<% } %>
 };
