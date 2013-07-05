@@ -2,7 +2,6 @@
 'use strict';
 var path = require('path'),
 		semver = require('semver'),
-		_s = require('underscore.string'),
 		f = require('util').format,
 		PORT = 3000,
 		public_dir = 'public',
@@ -119,8 +118,8 @@ module.exports = function (grunt) {
 		      node: true,
 		      // Clean up the name this will be stored under
 	        processName: function (filename) {
-				    var st = filename.split('.hbs')[0].split('./' + public_dir + '/templates/')[1];
-						return st.indexOf('/') !== -1 ? _s.camelize(st.split('/').join('-')) : st;
+						var st = filename.split('.hbs')[0].split('./public/templates/')[1];
+						return st.indexOf('/') !== -1 ? st.split('/').join('.') : st;
 				  }
 		    },
 		    files: methods.getHandlebarsFilePaths()
