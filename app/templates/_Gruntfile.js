@@ -2,11 +2,13 @@
 'use strict';
 var path = require('path'),
 		semver = require('semver'),
+    _ = require('lodash'),
 		f = require('util').format,
 		PORT = 3000,
 		public_dir = 'public',
 		app_path = './' + public_dir + '/',
-		USE_AMD = <% if (useAMD) { %>true<% } else { %>false<% }%>;
+		USE_AMD = <% if (useAMD) { %>true<% } else { %>false<% }%>,
+		defaultHandlebarsOptions, defaultCompassOptions;
 
 module.exports = function (grunt) {
 
@@ -23,6 +25,60 @@ module.exports = function (grunt) {
 	    return _files;
 		}
 	};
+
+  /**
+   * Base configuration to use for handlebars options
+   *
+   * These defaults are the same for both the main site and the
+   * admin with a few minor exceptions.
+   */
+  defaultHandlebarsOptions = {
+    namespace: 'JST',
+    amd: USE_AMD,
+    node: true,
+    partialsUseNamespace: true,
+
+    // /path/to/partials (within specd folder, so [public|admin]/templates/partials)
+    partialsPathRegex: /\/partials\//,
+
+    // File type to check for
+    partialRegex: /.*\.hbs$/,
+
+    // Clean up the name this will be stored under
+    processName: function (filename) {
+      var st = filename.split('.hbs')[0];
+      return st.split('./' + public_dir + '/templates/')[1];
+    },
+
+    // Cleanup the output of the partial name
+    // 
+    // from: /path/to/partialName.hbs
+    // to: partials/partialName
+    // 
+    processPartialName: function (filePath) {
+      var st = filePath.split('.hbs')[0];
+      return st.split('./' + public_dir + '/templates/')[1];
+    }
+  };
+  
+  /**
+   * Base configuration to use for Compass options
+   *
+   * These defaults are the same for both the main site and the
+   * admin with a few minor exceptions.
+   */
+  defaultCompassOptions = {
+    environment: 'production',
+    require: 'zurb-foundation',
+    httpPath: '/',
+    basePath: 'public',
+    cssDir: 'css/app',
+    sassDir: 'css/scss',
+    imagesDir: 'img',
+    javascriptsDir: 'js',
+    relativeAssets: true,
+    debugInfo: false
+  };
 
 
 	grunt.initConfig({<% if (useAMD) { %>
@@ -47,7 +103,7 @@ module.exports = function (grunt) {
 				cmd: function (m) { return f('git commit -m "%s"', m); }
 			},
 			git_push: {
-				cmd: 'git push origin deploys'
+				cmd: 'git push'
 			}
 		},
 	  bgShell: {
@@ -57,36 +113,19 @@ module.exports = function (grunt) {
       runNode: {
         cmd: 'node node_modules/nodemon ./server.js'
       }
-    },		
-		clean: {
-			clean: [app_path + 'build']
-		},
+    },
 		compass: {
 			dist: {
-				options: {
-					environment: 'production',
-					require: 'zurb-foundation',
-					httpPath: '/',
-					basePath: 'public',
-					cssDir: 'css/app',
-					sassDir: 'css/scss',
-					imagesDir: 'img',
-					javascriptsDir: 'js',
-					debugInfo: false
-				}
+				options: _.extend(_.clone(defaultCompassOptions), {
+					debugInfo: false,
+					outputStyle: 'compressed'
+				})
 			},
 			dev: {
-				options: {
-				  environment: 'development',
-					require: 'zurb-foundation',
-					httpPath: '/',
-					basePath: 'public',
-					cssDir: 'css/app',
-					sassDir: 'css/scss',
-					imagesDir: 'img',
-					javascriptsDir: 'js',
+				options: _.extend(_.clone(defaultCompassOptions), {
+					environment: 'development',
 					debugInfo: true
-				}
+				})
 			}
 		},
 		watch: {
@@ -112,16 +151,7 @@ module.exports = function (grunt) {
 		},
 		handlebars: {
 		  compile: {
-		    options: {
-		      namespace: 'JST',
-		      amd: USE_AMD,
-		      node: true,
-		      // Clean up the name this will be stored under
-	        processName: function (filename) {
-						var st = filename.split('.hbs')[0].split('./public/templates/')[1];
-						return st.indexOf('/') !== -1 ? st.split('/').join('.') : st;
-				  }
-		    },
+        options: _.clone(defaultHandlebarsOptions),
 		    files: methods.getHandlebarsFilePaths()
 		  }
 		},
@@ -152,7 +182,60 @@ module.exports = function (grunt) {
 	        },
 	      ]
 	    }
-	  }
+	  },
+    
+    //
+    // Run gzip compression
+    // 
+    compress: {
+      main: {
+        options: {
+          mode: 'gzip'
+        },
+        files: [
+          // Run compression on the main application js file
+          {
+            expand: true,
+            src: [app_path + 'js/app.min.js'],
+            dest: app_path + 'dist/',
+            ext: '.gz.js', //'.js.jgz'
+          },<% if (useAMD) { %>
+          // Run compression on the require.js file
+          {
+            expand: true,
+            src: [app_path + 'js/lib/require.js'],
+            dest: app_path + '/dist',
+            ext: '.gz.js' //'.js.jgz'
+          },<% }%>
+          // Run compression on the modernizr.js file
+          {
+            expand: true,
+            src: [app_path + 'js/lib/modernizr.min.js'],
+            dest: app_path + '/dist',
+            ext: '.gz.js' //'.js.jgz'
+          },
+          // Output the build css file to gzip
+          {
+            expand: true,
+            src: [app_path + 'css/app/app.css'],
+            dest: app_path + '/dist',
+            ext: '.gz.css'
+          }
+
+        ]
+      }
+    },
+
+    //
+    // Clear dirs and clean up files
+    // 
+    clean: {
+      clean: [
+        app_path + 'build',
+        app_path + 'dist',
+        app_path + 'js/app.min.js'
+      ]
+    }
 	});
 
 	//
@@ -184,14 +267,42 @@ module.exports = function (grunt) {
 	// grunt.registerTask('build', ['requirejs', 'compass:dev', 'handlebars', 'imagemin']);
 	grunt.registerTask('build', function () {
 		var tasks = [
-			'compass:dev',
-			'handlebars',
-			'imagemin'
+			'clean',
+			'compass:dist',
+			'handlebars',<% if (useAMD) { %>
+      'requirejs',<% } %>
+			'imagemin:dist',
+			'compress'
 		];
-		if (USE_AMD) tasks.splice(0, 0, 'requirejs');
 		console.log(tasks);
 		grunt.task.run(tasks);
 	});
+
+  //
+  // Run a clean build and push to the repo
+  // 
+  // After execution, rebuild compass as a `dev` version for
+  // seamless dev
+  // 
+  // ex: grunt commit:"My message"
+  // 
+  grunt.registerTask('commit', function (commitMessage) {
+
+    var msg = commitMessage || 'Grunt build and commit';
+
+    grunt.task.run([
+      'clean',
+      'compass:dist',
+      'handlebars',
+      'imagemin:dist',<% if (useAMD) { %>
+      'requirejs',<% } %>
+      'compress',
+      'exec:git_add',
+      'exec:git_commit:' + msg,
+      'exec:git_push',
+      'compass:dev'
+    ]);
+  });
 
 	//
 	// Call the `watch` task in isolation
@@ -225,5 +336,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-handlebars');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-bg-shell');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 	<% if (useAMD) { %>grunt.loadNpmTasks('grunt-contrib-requirejs');<% } %>
 };
