@@ -67,12 +67,11 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
 │   ├── index.html
 │   ├── js
 │   │   ├── lib
-│   │   │   ├── backbone-min.js
+│   │   │   ├── backbone.js
 │   │   │   ├── handlebars.js
 │   │   │   ├── lodash.compat.min.js
 │   │   │   ├── modernizr.min.js
 │   │   │   ├── require.js
-│   │   │   └── zepto.min.js
 │   │   ├── main.js
 │   │   └── templates
 │   │       └── templates.js
