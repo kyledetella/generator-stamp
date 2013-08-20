@@ -67,6 +67,7 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
 │   ├── index.html
 │   ├── js
 │   │   ├── lib
+│   │   │   ├── jquery.1.10.2.min.js
 │   │   │   ├── backbone.js
 │   │   │   ├── handlebars.js
 │   │   │   ├── lodash.compat.min.js
