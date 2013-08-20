@@ -1,5 +1,6 @@
 {
     "node": true,
+    "browser": true,
     "esnext": true,
     "bitwise": true,
     "camelcase": false,
@@ -17,5 +18,10 @@
     "strict": true,
     "trailing": true,
     "smarttabs": true,
-    "white": true
+    "white": true,
+    "globals": {
+        "requirejs": true,
+        "Modernizr": true,
+        "define": true
+    }
 }

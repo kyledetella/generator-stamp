@@ -1,6 +1,7 @@
+'use strict';
+
 (function () {
-  'use strict';
-
+  console.log('------------------------\n');
   console.log('You\'ve just Stamped out <%= _.slugify(projectTitle) %>!');
-
+  console.log('\n------------------------');
 })();

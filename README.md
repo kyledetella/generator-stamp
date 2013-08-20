@@ -6,7 +6,7 @@
   + A flyweight node.js server
   + [Foundation](http://foundation.zurb.com) CSS framework
   + Sane & scalable javascript architecture (AMD modules optional)
-  + Optional inclusion of Backbone.js
+  + Backbone.js
   + Handlebars templates
   + Image optimization
 
@@ -44,6 +44,7 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
       - This task is autorun in the `build` sequence.  
       - Optimized images will be saved to `build/img`  
       - Optional output for `:dev` & `:dist`
+  + `grunt build` – This will concatinate `require.js` and your build application (if using AMD)
   
 ## Your App
 ### Stamp will scaffold out you project with the following structure:

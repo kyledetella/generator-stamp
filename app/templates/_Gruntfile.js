@@ -87,7 +87,7 @@ module.exports = function (grunt) {
 				options: {
 					baseUrl: app_path + 'js',
 					name: 'main',
-					mainConfigFile: app_path + 'js/main.js',
+					mainConfigFile: app_path + 'js/config.js',
 					out: app_path + 'build/js/app.min.js'
 				}
 			}
@@ -235,7 +235,23 @@ module.exports = function (grunt) {
         app_path + 'dist',
         app_path + 'js/app.min.js'
       ]
-    }
+    }<% if (useAMD) { %>,
+    
+    //
+    // Concat requirejs and built file
+    //
+    concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: [
+          app_path + 'js/lib/require.js',
+          app_path + 'build/js/app.min.js'
+        ],
+        dest: app_path + 'build/js/app.built.js',
+      },
+    }<% }%>
 	});
 
 	//
@@ -304,6 +320,22 @@ module.exports = function (grunt) {
     ]);
   });
 
+
+  //
+  // Dist build task
+  // 
+  grunt.registerTask('build', [
+    'clean',
+    'compass:dist',
+    'handlebars',
+    'imagemin:dist',<% if (useAMD) { %>
+    'requirejs',
+    'concat',<% } %>
+    'compress'
+  ]);
+
+
+
 	//
 	// Call the `watch` task in isolation
 	// 
@@ -337,5 +369,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-contrib-compress');
-	<% if (useAMD) { %>grunt.loadNpmTasks('grunt-contrib-requirejs');<% } %>
+	<% if (useAMD) { %>grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-concat');<% } %>
 };

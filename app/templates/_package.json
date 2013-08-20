@@ -12,6 +12,7 @@
     "grunt-sed": "~0.1",
     "grunt-exec": "~0.4",
     "grunt-contrib-requirejs": "~0.4.0",
+    "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-compass": "~0.2.0",
     "semver": "~1.1.3",
