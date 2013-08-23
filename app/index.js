@@ -1,8 +1,9 @@
 'use strict';
-var util = require('util');
-var path = require('path');
-var fs = require('fs');
-var yeoman = require('yeoman-generator');
+var util = require('util'),
+    path = require('path'),
+    fs = require('fs'),
+    chalk = require('chalk'),
+    yeoman = require('yeoman-generator');
 
 
 var StampGenerator = function StampGenerator(args, options, config) {
@@ -21,35 +22,63 @@ var StampGenerator = function StampGenerator(args, options, config) {
       npm: true,
       bower: false, // Set to `true` when a solution for Bower size issue is found
       skipInstall: options['skip-install'],
-      callback: function() {
-        var goMessage =
-        '\n' +
-        '\n  *                                                     *'.green +
-        '\n  **                                                   **'.green +
-        '\n  ***                                                 ***'.green +
-        '\n  ****                                               ****'.green +
-        '\n  *****                                             *****'.green +
-        '\n  ******                                           ******'.green +
-        '\n  *******                                         *******'.green +
-        '\n  ********                                       ********'.green + 
-        '\n  -------------------------------------------------------'.green +
-        '\n  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='.green.bold +
-        '\n' +
-        '\n  Have fun building ' + _title .yellow.bold + 
-        '\n' +
-        '\n  Just type ' + 'grunt go'.yellow.bold + ' to fire it up!' +
-        '\n' +
-        '\n  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='.green.bold +
-        '\n  -------------------------------------------------------'.green +
-        '\n  ********                                       ********'.green +
-        '\n  *******                                         *******'.green +
-        '\n  ******                                           ******'.green +
-        '\n  *****                                             *****'.green +
-        '\n  ****                                               ****'.green +
-        '\n  ***                                                 ***'.green +
-        '\n  **                                                   **'.green +
-        '\n  *                                                     *'.green +
-        '\n\n';
+      callback: function () {
+        // var goMessage = 'Welcome!';
+        // var goMessage =
+        // '\n' +
+        // '\n  *                                                     *'.green +
+        // '\n  **                                                   **'.green +
+        // '\n  ***                                                 ***'.green +
+        // '\n  ****                                               ****'.green +
+        // '\n  *****                                             *****'.green +
+        // '\n  ******                                           ******'.green +
+        // '\n  *******                                         *******'.green +
+        // '\n  ********                                       ********'.green + 
+        // '\n  -------------------------------------------------------'.green +
+        // '\n  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='.green.bold +
+        // '\n' +
+        // '\n  Have fun building ' + _title .yellow.bold + 
+        // '\n' +
+        // '\n  Just type ' + 'grunt go'.yellow.bold + ' to fire it up!' +
+        // '\n' +
+        // '\n  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='.green.bold +
+        // '\n  -------------------------------------------------------'.green +
+        // '\n  ********                                       ********'.green +
+        // '\n  *******                                         *******'.green +
+        // '\n  ******                                           ******'.green +
+        // '\n  *****                                             *****'.green +
+        // '\n  ****                                               ****'.green +
+        // '\n  ***                                                 ***'.green +
+        // '\n  **                                                   **'.green +
+        // '\n  *                                                     *'.green +
+        // '\n\n';
+        var goMessage = [
+          '',
+          chalk.green.bold('*****************************************************'),
+          chalk.yellow('-----------------------------------------------------'),
+          chalk.yellow('*********************'),
+          chalk.yellow('*****************'),
+          chalk.yellow('*************'),
+          chalk.yellow('**********'),
+          chalk.yellow('*******'),
+          chalk.yellow('****'),
+          chalk.yellow('*'),
+          '',
+          ' Have fun building ' + chalk.bold(_title),
+          '',
+          ' Just type ' + chalk.black.bgCyan.bold(' grunt.go ') + ' to fire it up!',
+          '',
+          chalk.yellow('*'),
+          chalk.yellow('****'),
+          chalk.yellow('*******'),
+          chalk.yellow('**********'),
+          chalk.yellow('*************'),
+          chalk.yellow('*****************'),
+          chalk.yellow('*********************'),
+          chalk.yellow('-----------------------------------------------------'),
+          chalk.green.bold('*****************************************************'),
+          ''
+        ].join('\n');
         console.log(goMessage);
       }
     });
@@ -68,21 +97,27 @@ StampGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // welcome message
-  var welcome =
-  '\n     _-----_' +
-  '\n    |       |' +
-  '\n    |' + '--(o)--'.red + '|   .--------------------------.' +
-  '\n   `---------´  |    ' + 'Welcome to Yeoman,'.yellow.bold + '    |' +
-  '\n    ' + '( '.yellow + '_' + '´U`'.yellow + '_' + ' )'.yellow + '   |   ' + 'ladies and gentlemen!'.yellow.bold + '  |' +
-  '\n    /___A___\\   \'__________________________\'' +
-  '\n     |  ~  |'.yellow +
-  '\n   __' + '\'.___.\''.yellow + '__' +
-  '\n ´   ' + '`  |'.red + '° ' + '´ Y'.red + ' `\n';
+  
+  var welcome = [
+    '',
+    chalk.yellow('*********************************************'),
+    chalk.yellow.bold('---------------------------------------------'),
+    chalk.red('             w e l c o m e  t o              '),
+    '',
+    chalk.white.bold(' _______ _______ _______ _______  _____    /'),
+    chalk.white.bold(' |______    |    |_____| |  |  | |_____]  / '),
+    chalk.white.bold(' ______|    |    |     | |  |  | |       .  '),
+    '',
+    chalk.red('              [thanks, yeoman!]              '),
+    chalk.yellow.bold('---------------------------------------------'),
+    chalk.yellow('*********************************************'),
+    ''
+  ].join('\n');
 
   //
   // Render welcome message!
   // 
-  console.log(welcome);
+  console.log(welcome);//this.yeoman);
 
   //
   // Initialize prompts
