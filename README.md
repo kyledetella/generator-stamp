@@ -2,7 +2,8 @@
 [![Build Status](https://secure.travis-ci.org/kyledetella/generator-stamp.png?branch=master)](https://travis-ci.org/kyledetella/generator-stamp)
 
 ## Stamp Generator
-  ***Note – ** Be sure to use the latest version of Yeoman (1.0). [Migration instructions](http://yeoman.io/migrate.html)*
+  **Note – ** Be sure to use the latest version of Yeoman (1.0). [Migration instructions](http://yeoman.io/migrate.html).
+  
   A [Yeoman](http://yeoman.io) generator for scaffolding out scalable web apps. Featuring:
   + A flyweight node.js server
   + [Foundation](http://foundation.zurb.com) CSS framework
