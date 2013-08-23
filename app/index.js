@@ -23,35 +23,6 @@ var StampGenerator = function StampGenerator(args, options, config) {
       bower: false, // Set to `true` when a solution for Bower size issue is found
       skipInstall: options['skip-install'],
       callback: function () {
-        // var goMessage = 'Welcome!';
-        // var goMessage =
-        // '\n' +
-        // '\n  *                                                     *'.green +
-        // '\n  **                                                   **'.green +
-        // '\n  ***                                                 ***'.green +
-        // '\n  ****                                               ****'.green +
-        // '\n  *****                                             *****'.green +
-        // '\n  ******                                           ******'.green +
-        // '\n  *******                                         *******'.green +
-        // '\n  ********                                       ********'.green + 
-        // '\n  -------------------------------------------------------'.green +
-        // '\n  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='.green.bold +
-        // '\n' +
-        // '\n  Have fun building ' + _title .yellow.bold + 
-        // '\n' +
-        // '\n  Just type ' + 'grunt go'.yellow.bold + ' to fire it up!' +
-        // '\n' +
-        // '\n  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='.green.bold +
-        // '\n  -------------------------------------------------------'.green +
-        // '\n  ********                                       ********'.green +
-        // '\n  *******                                         *******'.green +
-        // '\n  ******                                           ******'.green +
-        // '\n  *****                                             *****'.green +
-        // '\n  ****                                               ****'.green +
-        // '\n  ***                                                 ***'.green +
-        // '\n  **                                                   **'.green +
-        // '\n  *                                                     *'.green +
-        // '\n\n';
         var goMessage = [
           '',
           chalk.green.bold('*****************************************************'),
@@ -97,8 +68,7 @@ StampGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // welcome message
-  
-  var welcome = [
+  var welcomeMessage = [
     '',
     chalk.yellow('*********************************************'),
     chalk.yellow.bold('---------------------------------------------'),
@@ -114,14 +84,30 @@ StampGenerator.prototype.askFor = function askFor() {
     ''
   ].join('\n');
 
-  //
   // Render welcome message!
-  // 
-  console.log(welcome);//this.yeoman);
+  console.log(welcomeMessage);
 
   //
   // Initialize prompts
   // 
+  // var prompts = [
+  //   {
+  //     name: 'projectTitle',
+  //     message: 'What is the name of this project?',
+  //     default: 'Stamp App'
+  //   },
+  //   {
+  //     name: 'projectDescription',
+  //     message: 'Enter a brief description of this project:',
+  //     default: 'Crafting an experience!'
+  //   },
+  //   {
+  //     type: 'confirm',
+  //     name: 'useAMD',
+  //     message: 'Would you like to use AMD modules?',
+  //     default: true
+  //   }
+  // ];
   var prompts = [
     {
       name: 'projectTitle',
@@ -133,39 +119,29 @@ StampGenerator.prototype.askFor = function askFor() {
       message: 'Enter a brief description of this project:',
       default: 'Crafting an experience!'
     },
-    // {
-    //   type: 'list',
-    //   name: 'domLib',
-    //   message: 'Choose your DOM library.',
-    //   choices: ['jQuery', 'Zepto']
-    // },
     {
-      type: 'confirm',
+      type: 'checkbox',
       name: 'useAMD',
-      message: 'Would you like to use AMD modules?',
-      default: true
-    }//,
-    // {
-    //   type: 'confirm',
-    //   name: 'useBackbone',
-    //   message: 'Would you like to include Backbone.js?',
-    //   default: true
-    // }
+      message: 'Include RequireJS?',
+      choices: [{
+        name: 'RequireJS',
+        value: 'includeRequireJS',
+        checked: true
+      }]
+    }
   ];
 
 
   //
   // Run prompt
   // 
-  this.prompt(prompts, function (props) {
-    this.projectTitle = props.projectTitle;
-    this.projectDescription = props.projectDescription;
-    // this.useZepto = props.domLib === 'Zepto';
-    this.useAMD = props.useAMD;
-    // this.useBackbone = props.useBackbone;
-
+  this.prompt(prompts, function (answers) {
+    this.projectTitle = answers.projectTitle;
+    this.projectDescription = answers.projectDescription;
+    this.useAMD = answers.useAMD.length;
     cb();
   }.bind(this));
+
 };
 
 //
