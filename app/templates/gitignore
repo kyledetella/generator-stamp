@@ -1,4 +1,6 @@
 node_modules
 *.log
 .DS_Store
-.sass-cache/
+
+# Ignore sass-cache files.
+*.sass-cache*
