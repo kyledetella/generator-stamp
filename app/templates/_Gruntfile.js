@@ -130,7 +130,7 @@ module.exports = function (grunt) {
 		},
 		watch: {
 			css: {
-				files: app_path + 'css/scss/*.scss',
+				files: app_path + 'css/scss/**/*.scss',
 				tasks: ['compass:dev'],
 				options: {
 					interrupt: false
